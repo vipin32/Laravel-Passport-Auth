@@ -23,7 +23,7 @@ class AuthController extends Controller
 
         $accessToken = $user->createToken('authToken')->accessToken;
 
-        return response([ 'user' => $user, 'access_token' => $accessToken]);
+        return response([ 'user' => $user, 'access_token' => $accessToken, 'status'=>200]);
     }
 
     public function login(Request $request)
@@ -39,7 +39,7 @@ class AuthController extends Controller
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
+        return response(['user' => auth()->user(), 'access_token' => $accessToken, 'status'=>200]);
 
     }
 
@@ -51,7 +51,8 @@ class AuthController extends Controller
 
         return response()->json([
           'success' => true,
-          'message' => 'Logout successfully'
+          'message' => 'Logout successfully',
+          'status'  => 200
       ]);
       }else {
         return response()->json([

@@ -16,9 +16,17 @@ class UserController extends Controller
 
     public function index()
     {
-        $user = User::all();
-
-        return ['users'=> $user];
+        
+        if(\Auth::user())
+        {
+            $user = User::all();
+            return response(['users'=> $user, 'status'=>200]);
+        }
+        else
+        {
+            return response(['message'=> 'You are not logged in', 'status'=>201]);
+        }
+    
     }
 
     /**
@@ -49,11 +57,11 @@ class UserController extends Controller
 
             // $accessToken = $user->createToken('authToken')->accessToken;
 
-            return response(['success'=> 'User Created Successfully']);
+            return response(['success'=> 'User Created Successfully', 'status'=>200]);
         }
         else
         {
-            return ['failed'=>'You do not have access to create user.'];
+            return response(['failed'=>'You do not have access to create user.', 'status'=>201]);
         }
         
     }
@@ -85,11 +93,11 @@ class UserController extends Controller
 
             $user->update($request->all());
 
-            return response(['success'=> 'User Updated Successfully']);
+            return response(['success'=> 'User Updated Successfully', 'status'=>200]);
         }
         else
         {
-            return ['failed'=>'You have no access to update user.'];
+            return response(['failed'=>'You have no access to update user', 'status'=>201]);
         }
     }
 
@@ -106,11 +114,11 @@ class UserController extends Controller
             $user = User::find($id);
             $user->delete();
 
-            return ['success'=>'User Deleted Successfully'];
+            return response(['success'=>'User Deleted Successfully', 'status'=>200]);
         }
         else
         {
-            return ['success'=>'You have no access to delete any user'];
+            return response(['success'=>'You have no access to delete any user', 'status'=>201]);
         }
     }
 }
